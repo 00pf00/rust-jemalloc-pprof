@@ -1,16 +1,17 @@
 use axum::http::StatusCode;
 use axum::response::IntoResponse;
 use std::io::BufReader;
+use jemalloc_pprof;
 
 #[cfg(not(target_env = "msvc"))]
 #[global_allocator]
-static ALLOC: tikv_jemallocator::Jemalloc = tikv_jemallocator::Jemalloc;
+static ALLOC: Jemalloc = Jemalloc;
 
 #[allow(non_upper_case_globals)]
 #[export_name = "malloc_conf"]
 pub static malloc_conf: &[u8] = b"prof:true,prof_active:true,lg_prof_sample:19\0";
 
-#[tokio::main]
+
 async fn main() {
     let mut v = vec![];
     for i in 0..1000000 {
