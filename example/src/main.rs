@@ -4,6 +4,9 @@ use std::io::BufReader;
 use jemalloc_pprof;
 
 #[cfg(not(target_env = "msvc"))]
+use tikv_jemallocator::Jemalloc;
+
+#[cfg(not(target_env = "msvc"))]
 #[global_allocator]
 static ALLOC: Jemalloc = Jemalloc;
 
